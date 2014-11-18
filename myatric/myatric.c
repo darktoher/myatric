@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "myatric.h"
 
+#include <string.h>
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  *                       Just a program for                            *
  *                            metering programs.                       *
@@ -112,6 +114,9 @@ void readfile(){
 
 void process_buf(){	
 	int i;
+	char* id_buf = (char*)malloc(32);
+	char ind0 = 0;
+	
 	empty_flag = 1;
 /*	printf("state = %d, ind = %d, buf = ", state, ind);
 	for(i=0;i<ind;i++) printf("%d,", *(buf+i));
@@ -127,7 +132,15 @@ void process_buf(){
 	if(empty_flag) elinez++;
 	
 	if(state==STATE_ZERO) {
-		
+		for(i=0; i<ind;i++){
+			if(ISSYMBOL(*(buf+i))) {
+				*(id_buf+ind0) = *(buf+i);
+				if(ind0++ > 31) { printf("Error: impossibru identificator's size\n"); exit(1); }
+			}
+			else {
+				if(ind0) element_tryadd(); ////////////////////////////////
+			}
+		}
 		
 	}
 	
@@ -177,6 +190,12 @@ int main(int argc, char** argv){
 	//~ int i;
 	//~ for(i=1;i<=122;i++)
 		//~ printf("-- N_%d, S_%c, sym=%d, fk=%d\n", i, i, ISSYMBOL(i), NESYMBOL(i));
+	
+	char aa[] = {'a', 'b', 'c'};
+	//~ char* aa = (char*)"abc";
+	printf("%d, %d, %d, %d, %d, %d, %d, %d, %d\n", *aa, *(aa+1), *(aa+2), *(aa+3), *(aa+4), *(aa+5), *(aa+6), *(aa+7), *(aa+8));
+	
+	printf("%d\n%s\n", strlen(aa), aa);
 	
 	element_destuction();
 	
