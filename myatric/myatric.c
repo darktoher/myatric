@@ -116,6 +116,7 @@ void process_buf(){
 	int i;
 	char* id_buf = (char*)malloc(32);
 	char ind0 = 0;
+	char m_type = TYPE_TYPE;
 	
 	empty_flag = 1;
 /*	printf("state = %d, ind = %d, buf = ", state, ind);
@@ -138,7 +139,7 @@ void process_buf(){
 				if(ind0++ > 31) { printf("Error: impossibru identificator's size\n"); exit(1); }
 			}
 			else {
-				if(ind0) element_tryadd(); ////////////////////////////////
+				if(ind0) { *(id_buf+ind0)=0; ind0=0; element_tryadd(id_buf, m_type); }
 			}
 		}
 		
@@ -147,7 +148,18 @@ void process_buf(){
 	ind = 0;
 }
 
-
+void lf_bracket(int i, char* type){
+	int j;
+	
+	*type = TYPE_ID;
+	if(ISSYMBOL(*(buf+j))) { printf("Error: lf worked uncorrently\n"); exit(1); }
+	
+	for(j=i;j<ind;j++){
+		if(!NESYMBOL(*(buf+j))) continue;
+		if(*(buf+j) == '(') { *type = TYPE_FUNC; return; }
+		else return;
+	}
+}
 
 int main(int argc, char** argv){
 	if((f = fopen(*(argv+1),"r")) == NULL) { printf("Error: can't read file\n"); exit(1); }

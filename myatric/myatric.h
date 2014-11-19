@@ -25,6 +25,7 @@
 // myatric
 void readfile();
 void process_buf(); // take buffer, make magic
+void lf_bracket(int i, char* type); // looking for bracket
 
 // element - char seq that can be id, func, type or smth else
 void element_add(char* name0, int* counter0, char t); // i've nothin' to say
