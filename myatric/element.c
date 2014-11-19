@@ -15,6 +15,7 @@ element* aladdin_head = NULL;
 
 void element_add(char* name0, int* counter0, char t){
 	int size = strlen(name0);
+	if(NMSYMBOL(*name0)) return;
 	if(aladdin_head==NULL) {
 		aladdin_head = (element*)malloc(sizeof(element));
 		aladdin_head->name = (char*)malloc(size);
@@ -41,6 +42,7 @@ void element_add(char* name0, int* counter0, char t){
 
 void element_tryadd(char* name0, char t){
 	int size = strlen(name0);
+	if(NMSYMBOL(*name0)) return;
 	if(aladdin_head==NULL) {
 		aladdin_head = (element*)malloc(sizeof(element));
 		aladdin_head->name = (char*)malloc(size);
@@ -78,6 +80,8 @@ void element_destuction(){
 	while(aladdin_head != NULL){
 		curr = aladdin_head;
 		aladdin_head = aladdin_head->next;
+		
+		printf("=--=%s, %d\n",curr->name, curr->type);
 				
 		free(curr->name);    // forget your name.
 		if(curr->t_flag)     // if others give you a price

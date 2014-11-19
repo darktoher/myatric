@@ -19,6 +19,8 @@
 
 #define ISSYMBOL(a) (((a)>=48 && (a)<=57)||((a)>=65 && (a)<=90)||((a)>=97 && (a)<=122)||((a)==95))
 #define NESYMBOL(a) ((a)!='\r' && (a)!='\t' && (a)!=' ' && (a)!='\n')
+#define NMSYMBOL(a) ((a)>='0' && (a)<='9')
+#define BNSYMBOL(a) (((a)>='0' && (a)<='9') || ((a)>='A' && (a)<='Z'))
 
 // interface
 
@@ -40,3 +42,11 @@ typedef struct eis {
 } eis;
 void eis_push(char type, char act); // push baby push
 eis* eis_pop(); // wanna take some data from eis?
+
+// rules - list of rules, just some ancient magic
+void rules_init();
+void rules(char* buf);
+
+// include_cheker - check includes recursively
+void include_check(char* str); // str like <lib.h> or "lib.h"
+

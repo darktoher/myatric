@@ -8,7 +8,7 @@
  *                       Just a program for                            *
  *                            metering programs.                       *
  * Warning: it can't cure cancer.                                      *
- * Version 0.8.1                                                       *
+ * Version 0.8.2                                                       *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 // global
@@ -149,7 +149,7 @@ void process_buf(){
 }
 
 void lf_bracket(int i, char* type){
-	int j;
+	int j=0;
 	
 	*type = TYPE_ID;
 	if(ISSYMBOL(*(buf+j))) { printf("Error: lf worked uncorrently\n"); exit(1); }
@@ -174,20 +174,7 @@ int main(int argc, char** argv){
 	//~ aladdin_head = NULL;
 	//~ eis_head = NULL;
 	
-	element_add((char*)"if", &ifz, TYPE_ID);
-	element_add((char*)"switch", &ifz, TYPE_ID);
-	element_add((char*)"for", &cyclez, TYPE_ID);
-	element_add((char*)"while", &cyclez, TYPE_ID);
-	
-	element_tryadd((char*)"break", TYPE_ID);
-	element_tryadd((char*)"continue", TYPE_ID);
-	element_tryadd((char*)"goto", TYPE_ID);
-	
-	element_tryadd((char*)"void", TYPE_TYPE);
-	element_tryadd((char*)"char", TYPE_TYPE);
-	element_tryadd((char*)"int", TYPE_TYPE);
-	element_tryadd((char*)"float", TYPE_TYPE);
-	element_tryadd((char*)"double", TYPE_TYPE);
+	rules_init();
 	
 	element_tryadd((char*)"if", 0);
 	
@@ -203,11 +190,11 @@ int main(int argc, char** argv){
 	//~ for(i=1;i<=122;i++)
 		//~ printf("-- N_%d, S_%c, sym=%d, fk=%d\n", i, i, ISSYMBOL(i), NESYMBOL(i));
 	
-	char aa[] = {'a', 'b', 'c'};
+	//~ char aa[] = {'a', 'b', 'c'};
 	//~ char* aa = (char*)"abc";
-	printf("%d, %d, %d, %d, %d, %d, %d, %d, %d\n", *aa, *(aa+1), *(aa+2), *(aa+3), *(aa+4), *(aa+5), *(aa+6), *(aa+7), *(aa+8));
+	//~ printf("%d, %d, %d, %d,0 %d, %d, %d, %d, %d\n", *aa, *(aa+1), *(aa+2), *(aa+3), *(aa+4), *(aa+5), *(aa+6), *(aa+7), *(aa+8));
 	
-	printf("%d\n%s\n", strlen(aa), aa);
+	//~ printf("%d\n%s\n", (int)strlen(aa), aa);
 	
 	element_destuction();
 	
