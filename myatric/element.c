@@ -92,6 +92,38 @@ void element_destuction(){
 }
 
 void element_reset_counter(){
+	if(aladdin_head==NULL) { printf("Error: can't reset element's counter"); exit(1); }
 	*(aladdin_head->counter) = 0;
+}
+
+void element_typeadd(char* name0, char t){
+	int size = strlen(name0);
+	if(BNSYMBOL(*name0)) return;
+	if(aladdin_head==NULL) {
+		aladdin_head = (element*)malloc(sizeof(element));
+		aladdin_head->name = (char*)malloc(size);
+		strncpy(aladdin_head->name, name0, size);
+		aladdin_head->counter = (int*)malloc(sizeof(int));
+		*(aladdin_head->counter) = 0;
+		aladdin_head->type = t;
+		aladdin_head->t_flag = 1;
+		aladdin_head->next = NULL;
+		return;
+	}
+	// find in names
+	element* curr;
+	for(curr = aladdin_head; curr != NULL; curr = curr->next)
+		if(!strcmp(curr->name, name0)) return;
+	// np, so just add new
+	curr = (element*)malloc(sizeof(element));
+	curr->name = (char*)malloc(size);
+	strncpy(curr->name, name0, size);
+	curr->counter = (int*)malloc(sizeof(int));
+	*(curr->counter) = 0;
+	curr->type = t;
+	curr->t_flag = 1;
+	curr->next = aladdin_head;
+	
+	aladdin_head = curr;
 }
 

@@ -15,7 +15,7 @@
 
 #define BUF_SIZE 256
 #define MAX_ID 64
-//~ #define MAX_TYPES 128
+#define MAX_PATH 64
 
 #define ISSYMBOL(a) (((a)>=48 && (a)<=57)||((a)>=65 && (a)<=90)||((a)>=97 && (a)<=122)||((a)==95))
 #define NESYMBOL(a) ((a)!='\r' && (a)!='\t' && (a)!=' ' && (a)!='\n')
@@ -34,6 +34,7 @@ void element_add(char* name0, int* counter0, char t); // i've nothin' to say
 void element_tryadd(char* name0, char t); // oh rly?
 void element_destuction(); // how can I clean this with fork?
 void element_reset_counter(); // reset counter of last added element
+void element_typeadd(char* name0, char t); // for remembering types from includes
 
 // eis - stack of expected identificators
 typedef struct eis {
