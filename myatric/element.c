@@ -67,7 +67,7 @@ void element_tryadd(char* name0, char t){
 	curr->name = (char*)malloc(size);
 	strncpy(curr->name, name0, size);
 	curr->counter = (int*)malloc(sizeof(int));
-	*(curr->counter) = 0;
+	*(curr->counter) = 1;
 	curr->type = t;
 	curr->t_flag = 1;
 	curr->next = aladdin_head;
@@ -81,13 +81,17 @@ void element_destuction(){
 		curr = aladdin_head;
 		aladdin_head = aladdin_head->next;
 		
-		printf("=--=%s, %d\n",curr->name, curr->type);
+		printf("=--=%s, %d, %d\n",curr->name, curr->type, *(curr->counter));
 				
 		free(curr->name);    // forget your name.
-		if(curr->t_flag)     // if others give you a price
+		if(curr->t_flag)     // if others tell you your price
 		free(curr->counter); // forget your price.
 		free(curr);          // forget yourself.
 		                     // now you totally free.
 	}
+}
+
+void element_reset_counter(){
+	*(aladdin_head->counter) = 0;
 }
 

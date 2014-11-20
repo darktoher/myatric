@@ -8,7 +8,7 @@
  *                       Just a program for                            *
  *                            metering programs.                       *
  * Warning: it can't cure cancer.                                      *
- * Version 0.8.2                                                       *
+ * Version 0.8.3                                                       *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 // global
@@ -125,7 +125,7 @@ void process_buf(){
 	
 	for(i=0;i<ind;i++)
 		if(NESYMBOL(*(buf+i))) {
-			printf("i = %d\n", i);
+			//~ printf("i = %d\n", i);
 			empty_flag = 0;
 			break;
 		}
@@ -174,7 +174,7 @@ int main(int argc, char** argv){
 	//~ aladdin_head = NULL;
 	//~ eis_head = NULL;
 	
-	rules_init();
+	rules_init(&ifz, &cyclez);
 	
 	element_tryadd((char*)"if", 0);
 	

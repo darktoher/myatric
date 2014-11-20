@@ -15,7 +15,7 @@
 
 #define BUF_SIZE 256
 #define MAX_ID 64
-#define MAX_TYPES 128
+//~ #define MAX_TYPES 128
 
 #define ISSYMBOL(a) (((a)>=48 && (a)<=57)||((a)>=65 && (a)<=90)||((a)>=97 && (a)<=122)||((a)==95))
 #define NESYMBOL(a) ((a)!='\r' && (a)!='\t' && (a)!=' ' && (a)!='\n')
@@ -33,6 +33,7 @@ void lf_bracket(int i, char* type); // looking for bracket
 void element_add(char* name0, int* counter0, char t); // i've nothin' to say
 void element_tryadd(char* name0, char t); // oh rly?
 void element_destuction(); // how can I clean this with fork?
+void element_reset_counter(); // reset counter of last added element
 
 // eis - stack of expected identificators
 typedef struct eis {
@@ -44,8 +45,14 @@ void eis_push(char type, char act); // push baby push
 eis* eis_pop(); // wanna take some data from eis?
 
 // rules - list of rules, just some ancient magic
-void rules_init();
-void rules(char* buf);
+void rules_init(int* ifz, int* cyclez);
+int rules(char* buf);
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *                        int rules(char* buf)                         *
+ * Return 1 if u should break buf processing, 0 else                   *
+ *      This func push to eis if you need to                           *
+ *           Also it can use include_check                             *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 // include_cheker - check includes recursively
 void include_check(char* str); // str like <lib.h> or "lib.h"
