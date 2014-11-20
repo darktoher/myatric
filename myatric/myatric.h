@@ -55,6 +55,7 @@ int rules(char* buf);
  *           Also it can use include_check                             *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-// include_cheker - check includes recursively
+// include_cheker - check includes recursively.
+// also it's most kawaii file of this project, nya~
 void include_check(char* str); // str like <lib.h> or "lib.h"
 
