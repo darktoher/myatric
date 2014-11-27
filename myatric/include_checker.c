@@ -6,7 +6,7 @@
 // List Of Libs that Included
 typedef struct loli {
 	char* name;
-	struct loli next;
+	struct loli* next;
 } loli; // so kawaii~
 
 loli* loli_head = NULL;

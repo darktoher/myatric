@@ -81,7 +81,7 @@ void element_destuction(){
 		curr = aladdin_head;
 		aladdin_head = aladdin_head->next;
 		
-		printf("=--=%s, %d, %d\n",curr->name, curr->type, *(curr->counter));
+		//~ printf("=--=%s, %d, %d\n",curr->name, curr->type, *(curr->counter));
 				
 		free(curr->name);    // forget your name.
 		if(curr->t_flag)     // if others tell you your price

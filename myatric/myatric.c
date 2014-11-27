@@ -8,7 +8,7 @@
  *                       Just a program for                            *
  *                            metering programs.                       *
  * Warning: it can't cure cancer.                                      *
- * Version 0.8.3                                                       *
+ * Version 0.8.4                                                       *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 // global
@@ -56,6 +56,13 @@ void readfile(){
 			break;
 			case '*':
 				if(b == '/') { commz++; process_buf(); state = STATE_COMM_BLOCK; }
+			break;
+			case '{':
+				curr_depth++;
+				if(curr_depth > max_depth) max_depth = curr_depth;
+			break;
+			case '}':
+				curr_depth--;
 			break;
 			}
 		break;

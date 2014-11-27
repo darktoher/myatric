@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-//~ #include <string.h>
 #include "myatric.h"
 
 void rules_init(int* ifz, int* cyclez){
