@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "myatric.h"
 
 void rules_init(int* ifz, int* cyclez){
@@ -20,5 +21,21 @@ void rules_init(int* ifz, int* cyclez){
 }
 
 int rules(char* buf){
+	char* str;
+	int size = strlen(buf);
+	int i,j;	
+	
+	for(i=0;i<size;i++){
+		if(NESYMBOL(*(buf+i))) break;
+	}
+	
+	if(i == size) return 0; // empty string
+	
+	str = (char*)malloc(size-i);
+	for(j=0;j<size-i;j++) *(str+j) = *(buf+j+i);
+	
+	
+	
+	
 	return 0;
 }
