@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "myatric.h"
-
 #include <string.h>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  *                       Just a program for                            *
  *                            metering programs.                       *
  * Warning: it can't cure cancer.                                      *
- * Version 0.8.4                                                       *
+ * Version 0.9.0                                                       *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 // global
@@ -139,18 +138,19 @@ void process_buf(){
 	
 	if(empty_flag) elinez++;
 	
+	/* 
 	if(state==STATE_ZERO) {
 		for(i=0; i<ind;i++){
 			if(ISSYMBOL(*(buf+i))) {
 				*(id_buf+ind0) = *(buf+i);
-				if(ind0++ > 31) { printf("Error: impossibru identificator's size\n"); exit(1); }
+				if(ind0++ > 31) { printf("Error: impossibru identifier's size\n"); exit(1); }
 			}
 			else {
 				if(ind0) { *(id_buf+ind0)=0; ind0=0; element_tryadd(id_buf, m_type); }
 			}
 		}
 		
-	}
+	}*/
 	
 	ind = 0;
 }

@@ -20,7 +20,7 @@ void rules_init(int* ifz, int* cyclez){
 	element_tryadd((char*)"double", TYPE_TYPE); element_reset_counter();
 }
 
-int rules(char* buf){
+void rules(char* buf){
 	char* str;
 	int size = strlen(buf);
 	int i,j;	
@@ -29,13 +29,26 @@ int rules(char* buf){
 		if(NESYMBOL(*(buf+i))) break;
 	}
 	
-	if(i == size) return 0; // empty string
+	if(i == size) return; // empty string
 	
 	str = (char*)malloc(size-i);
 	for(j=0;j<size-i;j++) *(str+j) = *(buf+j+i);
 	
-	
-	
+	// check some # sequences
+	if(*(str) == '#') {
+		// #define - next word labeled as identifier
+		if(!strncmp(str, "#define", 7) {
+			eis_push(0, ACTION_DROP_LINE);
+			eis_push(TYPE_ID, ACTION_CREATE_ELEMENT);
+			return;
+		}
+		// all others ignored
+		else {
+			eis_push(0, ACTION_DROP_LINE);
+			free(str);
+			return;
+		}
+	}
 	
 	return 0;
 }

@@ -7,11 +7,13 @@
 #define TYPE_ID 5
 #define TYPE_FUNC 6
 #define TYPE_TYPE 7
+#define TYPE_OPERATOR 8
 
-#define ACTION_NOTHING 8
-#define ACTION_CHECK_FUNC 9
-#define ACTION_PROBABLE_BLOCK 10
-#define ACTION_CREATE_ELEMENT 11
+#define ACTION_NOTHING 9
+#define ACTION_CHECK_FUNC 10
+#define ACTION_PROBABLE_BLOCK 11
+#define ACTION_CREATE_ELEMENT 12
+#define ACTION_DROP_LINE 13
 
 #define BUF_SIZE 256
 #define MAX_ID 64
@@ -22,7 +24,16 @@
 #define NMSYMBOL(a) ((a)>='0' && (a)<='9')
 #define BNSYMBOL(a) (((a)>='0' && (a)<='9') || ((a)>='A' && (a)<='Z'))
 
-// interface
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *  ______          __                     ___                         *
+ * /\__  _\        /\ \__                /'___\                        *
+ * \/_/\ \/     ___\ \ ,_\    __   _ __ /\ \__/   __      ___     __   *
+ *    \ \ \   /' _ `\ \ \/  /'__`\/\`'__\ \ ,__\/'__`\   /'___\ /'__`\ *
+ *     \_\ \__/\ \/\ \ \ \_/\  __/\ \ \/ \ \ \_/\ \L\.\_/\ \__//\  __/ *
+ *     /\_____\ \_\ \_\ \__\ \____\\ \_\  \ \_\\ \__/.\_\ \____\ \____\*
+ *     \/_____/\/_/\/_/\/__/\/____/ \/_/   \/_/ \/__/\/_/\/____/\/____/*
+ *                                                                     *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 // myatric
 void readfile();
@@ -34,28 +45,13 @@ void element_add(char* name0, int* counter0, char t); // i've nothin' to say
 void element_tryadd(char* name0, char t); // oh rly?
 void element_destuction(); // how can I clean this with fork?
 void element_reset_counter(); // reset counter of last added element
-void element_typeadd(char* name0, char t); // for remembering types from includes
 
-// eis - stack of expected identificators
-typedef struct eis {
-	char expected_type;
-	char action;
-	struct eis* next;
-} eis;
+// eis - stack of expected identifiers
 void eis_push(char type, char act); // push baby push
-eis* eis_pop(); // wanna take some data from eis?
+void eis_pop(); // nothing but delete last pushed eis
+char eis_take_action(); // wanna take some data from eis?
+char eis_take_type();   // take it.
 
 // rules - list of rules, just some ancient magic
-void rules_init(int* ifz, int* cyclez);
-int rules(char* buf);
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
- *                        int rules(char* buf)                         *
- * Return 1 if u should break buf processing, 0 else                   *
- *      This func push to eis if you need to                           *
- *           Also it can use include_check                             *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-// include_cheker - check includes recursively.
-// also it's most kawaii file of this project, nya~
-void include_check(char* str); // str like <lib.h> or "lib.h"
-
+void rules_init(int* ifz, int* cyclez); // some initial elements
+void rules(char* buf); // push to eis if you need to
