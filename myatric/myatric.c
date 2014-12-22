@@ -120,9 +120,9 @@ void readfile(){
 
 void process_buf(){	
 	int i;
-	char* id_buf = (char*)malloc(32);
-	char ind0 = 0;
-	char m_type = TYPE_TYPE;
+	//~ char* id_buf = (char*)malloc(32);
+	//~ char ind0 = 0;
+	char m_type;
 	
 	empty_flag = 1;
 /*	printf("state = %d, ind = %d, buf = ", state, ind);

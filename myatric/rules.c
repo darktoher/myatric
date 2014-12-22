@@ -37,7 +37,7 @@ void rules(char* buf){
 	// check some # sequences
 	if(*(str) == '#') {
 		// #define - next word labeled as identifier
-		if(!strncmp(str, "#define", 7) {
+		if(!strncmp(str, "#define", 7)) {
 			eis_push(0, ACTION_DROP_LINE);
 			eis_push(TYPE_ID, ACTION_CREATE_ELEMENT);
 			return;
@@ -50,5 +50,4 @@ void rules(char* buf){
 		}
 	}
 	
-	return 0;
 }
