@@ -7,8 +7,8 @@ fdthj/*dfgdfndfgdfj*/1234556767
 
 123
 	
-""
-"" "" "" "" '' ""
+""xc
+"" "" "" "" '' ""4
 											 
 					345634567
 		det
@@ -17,11 +17,6 @@ dgnsdgn
 
 dfgbh
 
-*/
+*/ ***
 for for for 
-int 
-
-
-{}
-{{}}
-{}
+int

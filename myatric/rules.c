@@ -20,34 +20,34 @@ void rules_init(int* ifz, int* cyclez){
 	element_tryadd((char*)"double", TYPE_TYPE); element_reset_counter();
 }
 
-void rules(char* buf){
-	char* str;
-	int size = strlen(buf);
-	int i,j;	
-	
-	for(i=0;i<size;i++){
-		if(NESYMBOL(*(buf+i))) break;
-	}
-	
-	if(i == size) return; // empty string
-	
-	str = (char*)malloc(size-i);
-	for(j=0;j<size-i;j++) *(str+j) = *(buf+j+i);
-	
-	// check some # sequences
-	if(*(str) == '#') {
-		// #define - next word labeled as identifier
-		if(!strncmp(str, "#define", 7)) {
-			eis_push(0, ACTION_DROP_LINE);
-			eis_push(TYPE_ID, ACTION_CREATE_ELEMENT);
-			return;
+void rules(){
+	char e_type = 0;
+	while(loir_take_type()){
+		switch (loir_take_type()) {
+		case TYPE_ID:
+			if(!e_type) e_type = TYPE_ID;
+			element_tryadd(loir_take_str(), e_type);
+		break;
+		case TYPE_NUM:
+			
+		break;
+		case TYPE_OPERATOR:
+			inc_op();
+		break;
+		case TYPE_SPECIAL:
+			if(loir_take_type() == '(')
+			eis_push(TYPE_FUNC, ACTION_CREATE_ELEMENT);
+		break;
 		}
-		// all others ignored
-		else {
-			eis_push(0, ACTION_DROP_LINE);
-			free(str);
-			return;
+		
+		if(eis_take_action() == ACTION_CREATE_ELEMENT) {
+			e_type = eis_take_type();
+			eis_pop();
 		}
+		
+	//	printf("%d: %s\n", loir_take_type(), loir_take_str());
+		loir_pop();
 	}
 	
 }
+

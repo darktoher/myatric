@@ -8,6 +8,8 @@
 #define TYPE_FUNC 6
 #define TYPE_TYPE 7
 #define TYPE_OPERATOR 8
+#define TYPE_SPECIAL 14
+#define TYPE_NUM 15
 
 #define ACTION_NOTHING 9
 #define ACTION_CHECK_FUNC 10
@@ -38,7 +40,9 @@
 // myatric
 void readfile();
 void process_buf(); // take buffer, make magic
-void lf_bracket(int i, char* type); // looking for bracket
+char get_type(char c);
+void inc_op();
+void inc_func();
 
 // element - char seq that can be id, func, type or smth else
 void element_add(char* name0, int* counter0, char t); // i've nothin' to say
@@ -54,7 +58,7 @@ char eis_take_type();   // take it.
 
 // rules - list of rules, just some ancient magic
 void rules_init(int* ifz, int* cyclez); // some initial elements
-void rules(char* buf); // push to eis if you need to
+void rules(); // push to eis if you need to
 
 // loir - list of identifiers to be ruled
 void loir_add(char* str, char size0, char type0);

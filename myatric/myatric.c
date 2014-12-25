@@ -7,7 +7,7 @@
  *                       Just a program for                            *
  *                            metering programs.                       *
  * Warning: it can't cure cancer.                                      *
- * Version 0.9.0                                                       *
+ * Version 0.9.4                                                       *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 // global
@@ -24,6 +24,10 @@ int curr_depth;
 char* buf;
 int ind;
 char empty_flag;
+
+int num_op;
+int num_func;
+
 
 FILE* f;
 
@@ -119,89 +123,91 @@ void readfile(){
 }
 
 void process_buf(){	
-	int i;
-	//~ char* id_buf = (char*)malloc(32);
-	//~ char ind0 = 0;
-	char m_type;
-	
+	int i;	
 	empty_flag = 1;
-/*	printf("state = %d, ind = %d, buf = ", state, ind);
-	for(i=0;i<ind;i++) printf("%d,", *(buf+i));
-	printf("\n");*/
+	char m_type = 0;
+	char* str = (char*)malloc(32);
+	int stri = 0;
+	
+	if(state==STATE_ZERO)
+	for(i=0;i<ind;i++){
+		if(!m_type){
+			switch (get_type(*(buf+i))){
+			case TYPE_NUM:
+				m_type = TYPE_NUM;
+				*(str+stri++) = *(buf+i);
+			break;
+			case TYPE_ID:
+				m_type = TYPE_ID;
+				*(str+stri++) = *(buf+i);
+			break;
+			case TYPE_SPECIAL:
+				loir_add(buf+i, 1, TYPE_SPECIAL);
+			break;
+			case TYPE_OPERATOR:
+				m_type = TYPE_OPERATOR;
+				*(str+stri++) = *(buf+i);
+			break;
+			}
+		}
+		else{
+			if( (m_type == get_type(*(buf+i))) || (m_type==TYPE_ID && get_type(*(buf+i))==TYPE_NUM) || (m_type==TYPE_NUM && get_type(*(buf+i))==TYPE_ID) ){
+				*(str+stri++) = *(buf+i);
+			}
+			else{
+				loir_add(str, stri, m_type);
+				m_type = 0;
+				stri = 0;
+				i--;
+			}
+		}
+		
+	}
 	
 	for(i=0;i<ind;i++)
 		if(NESYMBOL(*(buf+i))) {
-			//~ printf("i = %d\n", i);
 			empty_flag = 0;
 			break;
 		}
 	
-	if(empty_flag) elinez++;
-	
-	/* 
-	if(state==STATE_ZERO) {
-		for(i=0; i<ind;i++){
-			if(ISSYMBOL(*(buf+i))) {
-				*(id_buf+ind0) = *(buf+i);
-				if(ind0++ > 31) { printf("Error: impossibru identifier's size\n"); exit(1); }
-			}
-			else {
-				if(ind0) { *(id_buf+ind0)=0; ind0=0; element_tryadd(id_buf, m_type); }
-			}
-		}
-		
-	}*/
-	
+	if(empty_flag) elinez++;	
 	ind = 0;
+	
+	if(!empty_flag && state==STATE_ZERO) rules();
+	
+	free(str);
 }
 
-void lf_bracket(int i, char* type){
-	int j=0;
-	
-	*type = TYPE_ID;
-	if(ISSYMBOL(*(buf+j))) { printf("Error: lf worked uncorrently\n"); exit(1); }
-	
-	for(j=i;j<ind;j++){
-		if(!NESYMBOL(*(buf+j))) continue;
-		if(*(buf+j) == '(') { *type = TYPE_FUNC; return; }
-		else return;
-	}
+char get_type(char c){
+	if(NMSYMBOL(c)) return TYPE_NUM;
+	if(ISSYMBOL(c)) return TYPE_ID;
+	if(c=='{' || c=='}' || c=='(' || c==')' || c=='#' || c=='[' || c==']' || c==';') return TYPE_SPECIAL;
+	if(c=='+' || c=='-' || c=='*' || c=='/' || c=='=' || c=='|' || c=='&' || c=='%' || c=='!' || c=='<' || c=='>' || c=='?') return TYPE_OPERATOR;
+	return 0;
 }
+
+void inc_op() { num_op++; }
+void inc_func() { num_func++; }
 
 int main(int argc, char** argv){
 	if((f = fopen(*(argv+1),"r")) == NULL) { printf("Error: can't read file\n"); exit(1); }
 	
-	elinez = commz = ifz = cyclez = max_depth = curr_depth = 0;
+	elinez = commz = ifz = cyclez = max_depth = curr_depth = num_op = num_func = 0;
 	linez = 1;
 	state = STATE_ZERO;
 	buf = (char*)malloc(BUF_SIZE);
 	ind = 0;
 	empty_flag = 1;
 	
-	//~ aladdin_head = NULL;
-	//~ eis_head = NULL;
-	
 	rules_init(&ifz, &cyclez);
-	
-	element_tryadd((char*)"if", 0);
-	
+		
 	readfile();
 	
-	//~ printf("t_%d\ns_%d\nr_%d\nn_%d\n", '\t', ' ', '\r', '\n'); 
-	
-	//~ printf("a_%d\nz_%d\nA_%d\nZ_%d\n__%d\n1_%d\n9_%d\n0_%d\n", 'a', 'z', 'A', 'Z', '_', '1', '9', '0'); 
-	
 	printf("Lines: %d\nNon-empty lines: %d\nComments: %d\nIfs: %d\nCycles: %d\nMax depth: %d\n",
-		linez, linez-elinez, commz, ifz, cyclez, max_depth);
-	//~ int i;
-	//~ for(i=1;i<=122;i++)
-		//~ printf("-- N_%d, S_%c, sym=%d, fk=%d\n", i, i, ISSYMBOL(i), NESYMBOL(i));
+		linez, linez-elinez-1, commz, ifz, cyclez, max_depth);
+	//~ printf("Lines: %d\nEmpty lines: %d\nComments: %d\nIfs: %d\nCycles: %d\nMax depth: %d\n",
+		//~ linez, elinez, commz, ifz, cyclez, max_depth);
 	
-	//~ char aa[] = {'a', 'b', 'c'};
-	//~ char* aa = (char*)"abc";
-	//~ printf("%d, %d, %d, %d,0 %d, %d, %d, %d, %d\n", *aa, *(aa+1), *(aa+2), *(aa+3), *(aa+4), *(aa+5), *(aa+6), *(aa+7), *(aa+8));
-	
-	//~ printf("%d\n%s\n", (int)strlen(aa), aa);
 	
 	element_destuction();
 	
